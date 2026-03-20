@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevOps Quiz App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fa;
+            text-align: center;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+        h1 {
+            color: #333;
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        .option {
+            display: block;
+            background: #eee;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: #d4e6ff;
+        }
+        #nextBtn {
+            padding: 10px 20px;
+            margin-top: 20px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #nextBtn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>DevOps Quiz</h1>
+    <div id="quiz">
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+        <button id="nextBtn" onclick="nextQuestion()">Next</button>
+    </div>
+    <h2 id="result"></h2>
+</div>
+
+<script>
+const quizData = [
+    {
+        question: "What does DevOps stand for?",
+        options: ["Development & Operations", "Device Operations", "Development Options", "None"],
+        answer: "Development & Operations"
+    },
+    {
+        question: "Which tool is used for CI/CD?",
+        options: ["Docker", "Jenkins", "Kubernetes", "Git"],
+        answer: "Jenkins"
+    },
+    {
+        question: "What is Docker?",
+        options: ["Programming Language", "Container Platform", "Database", "OS"],
+        answer: "Container Platform"
+    },
+    {
+        question: "Which is a version control system?",
+        options: ["Git", "Ansible", "Terraform", "Nagios"],
+        answer: "Git"
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+    const q = quizData[currentQuestion];
+    document.getElementById("question").innerText = q.question;
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    q.options.forEach(option => {
+        const btn = document.createElement("div");
+        btn.innerText = option;
+        btn.classList.add("option");
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+    });
+}
+
+function checkAnswer(selected) {
+    const correct = quizData[currentQuestion].answer;
+    if (selected === correct) {
+        score++;
+    }
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("result").innerText =
+            "Your Score: " + score + "/" + quizData.length;
+    }
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
